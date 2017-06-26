@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import urllib.request
 import tarfile
 import os.path
@@ -21,16 +19,18 @@ if os.path.exists(home + "/.julia/bin/julia"):
         sys.exit()
 
 tarball = urllib.request.URLopener()
-tarball.retrieve("https://julialang.s3.amazonaws.com/bin/linux/x64/0.5/julia-0.5.0-linux-x86_64.tar.gz", home + "/julia.tar.gz", reporthook=show_progress)
+tarball.retrieve("https://julialang.s3.amazonaws.com/bin/linux/x64/0.5/julia-0.5.2-linux-x86_64.tar.gz", home + "/julia.tar.gz", reporthook=show_progress)
 
 extract = tarfile.open(name=home + "/julia.tar.gz")
 extract.extractall(path=home)
 
-shutil.move(home + "/julia-3c9d75391c/", home + "/.julia/")
+shutil.move(home + "/julia-f4c6c9d4bb/", home + "/.julia/")
 
 if not os.path.isdir(home + "/.julia/bin"):
     os.environ["PATH"] += os.pathsep + (home + "/.julia/bin")
     with open(home + "/.profile", "a") as profile:
         profile.write("#julia install\nexport PATH=$PATH:$HOME/.julia/bin\n")
+
+os.remove(home + "/julia.tar.gz")
 
 print("\n...done. Installed to " + home + "/.julia/")
